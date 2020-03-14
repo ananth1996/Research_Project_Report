@@ -1,13 +1,16 @@
-\documentclass[a4paper,11pt]{article}
+\documentclass[twoside,leqno,twocolumn]{article}
 
 
 \input{macros}
 
-
 \title{CS-E4870 \\
         \large Research Project in Machine Learning and Data Science} 
 \author{Ananth Mahadevan} 
+\affil{Department of Computer Science, Aalto University\\
+\href{mailto:ananth.mahadevan@aalto.fi}{ananth.mahadevan@aalto.fi}}
 
+
+\date{}
 \begin{document}
 \maketitle
 
@@ -18,36 +21,38 @@
 
 \section{Introduction}
 \label{sec:introduction}
-
-
-\section{Motivation}
-\label{sec:motivation}
-
-
-\section{Problem Statement}
-\label{sec:problem-statement}
+\input{introduction.tex}
 
 \section{Literature review}
 \label{sec:literature-review}
+\input{literature_review.tex}
 
-\section{Proposed solution}
+\section{Dataset}
+\label{sec:dataset}
+\input{dataset.tex}
+
+\section{Viscous Democracy}
+Brief explanation of viscous democracy
+\label{sec:viscous}
+
+\section{Proposed Model}
+Use viscous democracy models using heuristic delegation functions on social network to predict elections separately
 \label{sec:solution}
 
 \section{Implementation}
+directed graph concepts and delegation function considerations.
+Agony and hierarchy. local and global top k delegates.
 \label{sec:implementation}
 
-\section{Empirical Evaluation Methodology}
-\label{sec:evaluation}
-
 \section{Results}
+The quality of predictions using local or global important editors.
 \label{sec:results}
 
-
-\section{Discussion}
-\label{sec:discussion}
-
-
 \section{Conclusions}
+How we can instead try and model individual voter behaviour. Find a more robust ML framework to learn an optimal delegation function.
 \label{sec:conclusion}
+
+\bibliography{ref}
+\bibliographystyle{plain}
 
 \end{document}
