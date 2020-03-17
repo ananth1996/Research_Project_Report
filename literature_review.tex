@@ -4,3 +4,22 @@
     \item prediction using communication and how close 
     \item Signed edge prediction and difficulties
 \end{itemize}
+
+The Wikipedia RfA process has been widely studied in various domains from many different perspectives such as those of the candidate, the voters, the community etc. In this section we discuss the existing work in this field.
+\smallskip
+
+Administrator is a highly coveted status on Wikipedia and there are many features than can be used to determine the worthiness of a candidate. Wikipedia themselves provide tools and guides\footnote{http://en.wikipedia.org/wiki/Wikipedia:GRFA} to help potential candidate assess their own electability. Wikipedia's \textit{admin score} as seen in Figure~\ref{fig:admin-score} uses features such as edit counts, pages created, age of account etc. Burke et al. \cite{BurkeMoppingUp} utilize past RfAs to find features that highly correlate with success such as presence of edit summaries, politeness in user interactions and varied experience. Such tools and models are useful for finding potential nominees and understanding what the community values and respects. This however doesn't offer any insights into the dynamics that might play out in any particular.election
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\linewidth]{images/Asynchronous Admin Score.pdf}
+    \caption{Admin score for user CJCurrie and it's breakdown}
+    \label{fig:admin-score}
+\end{figure}
+\smallskip
+
+Leskovec et al. provide a thorough analysis of the election from the perspective of the voter. They show that the voters make decisions based on \textit{relative assessment} of merit and degree of correspondence with the candidate. Elections do not follow a \textit{herd mentality} and standard information cascades. We see an interesting result that voters have diverse personal response functions as well as admin and non-admin patterns of voting differ. \cite{leskovec2010governance} We get a detailed picture of the temporal dynamics in a RfA.
+\smallskip
+
+As the votes in an RfA election can be positive or negative they can form a \textit{signed network} which has been studied and analyzed in great detail. We see that the Wikipedia RfA network has more compliance with status theory compared to balance theory in Leskovec et al. \cite{leskovecSigned}. When Leskovec et al. try and use these signed structural properties to predict edges in \cite{leskovecPredicting}, they see that the predictive accuracy is poor for Wikipedia RfA network compared to the other networks used. This shows that interactions in the elections are complex. Status and influence of voters tend to play a role in voting pattern.
+\smallskip
+
