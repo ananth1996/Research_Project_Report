@@ -11,5 +11,50 @@
         \item User contributions
         \item wealth and diversity of info 
         \item creating underlying network
-    \end{itemize}
+    \end{itemize}   
 \end{itemize}
+
+We would like to have two different types of data to help build the election model in this paper. The first would be information of the votes cast in a RfA and the eventual result of the RfA. This gives us the users interactions in an online election process where they have to judge their peers. The second, is information on the interactions of users in other non-elections settings. In Wikipedia discussions occur in \textit{Talk Pages}. Every type of Wikipedia page (articles, user pages, help pages etc) has a \textit{Talk Page} where users can discuss the contents of that article or interact with the user or provide information to others. These are valuable data sources to gather more details on user activities.
+\smallskip
+
+In this section we will discuss the existing Wikipeida datasets from Stanford large network datasets (SNAP) \cite{snapnets} that satisfy our requirements and their inherent limitations. Next we will illustrate the process by which we collected newer data from Wikipedia. Lastly, we analyze the data to understand general trends and patterns.
+
+\newcommand{\wikirfa}{\textit{wiki-Rfa} }
+\newcommand{\wikielect}{\textit{wiki-Elect} }
+
+\subsection{Existing Datasets}
+For the first type of data we requore thre are two existing Wikipedia RfA datasets in SNAP namely \wikielect a
+nd \wikirfa. They both contain attributes of each vote in a RfA such as the source, target, vote , result of RfA, timestamp. The \wikirfa is a more recent version of the \wikielect dataset. It has RfAs till May 2013 and also has the comment text of voters. There are 11,000 users and around 190 thousand votes in total. Both of these datasets have been used in many previous works mostly as signed networks. There are a few limitations of these datasets when we would like to analyze them as vote cast in an election. There is more than 5\% of \wikirfa votes that have no timestamp and almost 1\% of votes that have no source. As most RfAs have fewer than 300 votes this is an issue when considering the sequence of votes as well as who has cast a vote.
+\smallskip
+
+The interactions between users outside of RfA elections is useful to understand behaviour and perceptions of others. Wikipedia users can directly interact with another user by writing on their \textit{User Talk Page}. This can be a measure of how much correspondence exists between two users. We saw how this is a good indication of probability of supporting a candidate for an election \cite{leskovec2010governance}. The \textit{wiki-Talk} dataset on SNAP contains a directed network where an edge from node \textit{u} to \textit{v} signifies that \textit{u} has written in \textit{v}'s talk page. This dataset is a large network containing more than 2 million nodes and 5 million edges. The limitation of this network data is that nodes do not have user id mapping and also the edges are not weighted. Without a node to user id mapping the network canot be used with the election data. Having weighted edges tells us how many times a user has interacted with someone else which is more informative. 
+\smallskip
+
+Due to the limitations of the existing datasets we set out to collect our own data to build our election model.
+
+\subsection{Data Collections}
+
+\tikzset
+{mybox/.style=
+  {rectangle,rounded corners,drop shadow,minimum height=1cm,
+   minimum width=2cm,align=center,fill=#1,draw=colBorder,line width=1pt
+  },
+ myarrow/.style=
+  {draw=#1,line width=3pt,-stealth,rounded corners
+  },
+ mylabel/.style={text=#1}
+}
+\begin{figure*}[h!]
+    \centering
+    \begin{tikzpicture}
+        [align=center,node distance=2cm]
+        \node[mybox=colD] (W) {Complete Wiki\\ XML Dump};
+        \node[mybox=colIP,right=of W] (F) {RfA related\\ XML pages};
+        \node[mybox=colV,right=of F] (V) {Final Dataset};
+        \path[myarrow=colD] (W) -- node[above] {Filter} (F);
+        \path[myarrow=colIP] (F) -- node[above] {Extract} node[below] {Votes} (V);
+    \end{tikzpicture}
+    
+    \caption{RfA Data Collection Process}
+    \label{rfa-extraction}
+\end{figure*}
