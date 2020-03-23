@@ -14,13 +14,17 @@
     \end{itemize}   
 \end{itemize}
 
+\section{Dataset}
+\label{sec:dataset}
+
 We would like to have two different types of data to help build the election model in this paper. The first would be information of the votes cast in a RfA and the eventual result of the RfA. This gives us the users interactions in an online election process where they have to judge their peers. The second, is information on the interactions of users in other non-elections settings. In Wikipedia discussions occur in \textit{Talk Pages}. Every type of Wikipedia page (articles, user pages, help pages etc) has a \textit{Talk Page} where users can discuss the contents of that article or interact with the user or provide information to others. These are valuable data sources to gather more details on user activities.
 \smallskip
 
-In this section we will discuss the existing Wikipeida datasets from Stanford large network datasets (SNAP) \cite{snapnets} that satisfy our requirements and their inherent limitations. Next we will illustrate the process by which we collected newer data from Wikipedia. Lastly, we analyze the data to understand general trends and patterns.
+In this section we will discuss the existing Wikipeida datasets from Stanford large network datasets (SNAP) \cite{snapnets} that satisfy our requirements and their inherent limitations. Next we will illustrate the process by which we collected newer data from Wikipedia.
 
 \newcommand{\wikirfa}{\textit{wiki-Rfa} }
 \newcommand{\wikielect}{\textit{wiki-Elect} }
+\newcommand{\wikitalk}{\textit{wiki-Talk} }
 
 \subsection{Existing Datasets}
 For the first type of data we requore thre are two existing Wikipedia RfA datasets in SNAP namely \wikielect a
@@ -32,7 +36,15 @@ The interactions between users outside of RfA elections is useful to understand 
 
 Due to the limitations of the existing datasets we set out to collect our own data to build our election model.
 
-\subsection{Data Collections}
+\subsection{RfA Data Collection}
+
+We went through a 60GB XML dump of Wikipedia from Jan 2019 to extract the RfA data. We chose to scrape the data in a format similar to the SNAP \wikirfa dataset. The outline of the data extraction process is illustrated in Figure~\ref{fig:rfa-extraction}. In the first step we filter out all Wiki pages whose title doesn't contain the term \texttt{Requests for adminship}. This still leaves us with a lot of non-election Wiki pages, so we can further filter by checking for terms such as \texttt{Category:Unsuccessful requests} or \texttt{Category:Successful requests}.Now this reduces the space from over 5 million pages to the roughly 4000 pages related to RfA elections.
+\smallskip
+
+The next step is to process the body of the election pages individually and extract votes from the \wikitalk, Wikipedia's own markup syntax. After locating the \texttt{Support}, \texttt{Oppose} and \texttt{Neutral} sections we can extract the individual votes. This step is particularly hard as \wikitalk syntax changes through the years and there is no fixed page structure. The user's comment can also nested discussion threads which we chose to not extract. As user vote are ended with a signature, i.e their user id and timestamp. The timestamps also have varied syntaxes adding to the overall complexity of this extraction phase. Using more robust regular expressions to capture multiple timestamp formats and also handling a myraid of edgge cases in processing we acheive a much higher coverage of election votes. 
+\smallskip
+
+We collected $226,781$ votes from $4,557$ elections with over $13,000$ unique user ids. Only $1.6\%$ of votes have missing timestamps and $0.4\%$ have a missing source. We also added unique id (UID) field to differentiate candidates who stood for elections multiple times. 
 
 \tikzset
 {mybox/.style=
@@ -56,5 +68,9 @@ Due to the limitations of the existing datasets we set out to collect our own da
     \end{tikzpicture}
     
     \caption{RfA Data Collection Process}
-    \label{rfa-extraction}
+    \label{fig:rfa-extraction}
 \end{figure*}
+
+\subsection{User Interaction Data Collection}
+Wikipedia has an API to request all the contributions made by a particular user \cite{wiki:Usercontribs}. This offers a rich source of data on the activities of a user on Wikipedia as seen in Figure~\ref{fig:edit-summary} from the online \textit{editsummary tool}\footnote{\url{https://xtools.wmflabs.org/editsummary}} for Wikipedia users. We proceeded to collect the contributions for every unique user in the RfA data querying the API. There are some issues with the user ids that are present in the RfA data. As a single user can have multiple aliases and/or change their user id at any point, some users might not have any contributions under an alias that has been discontinued. To simplify our data colection, we assume that each user id is a unique user and will fetch contributions under that user id if present. This resulted in 100GB of data for nearly $11,000$ out of $13,000$ user ids. We can see that edits have a \textit{namespace} as seen in \ref{fig:namespace-totals}. These are categories for each Wiki page like \texttt{Main} is for all the articles on Wikipedia and \texttt{User Talk} is available for each user. Each category also has a the corresponding \textit{Talk Page} for discussions. Therefore, we can get user interactions by looking at the \texttt{User Talk} namespace. As an example in \ref{fig:user-talk-edits}, the top edited user talk page is of \texttt{Dianna} (The actual user is \texttt{Justlettersandnumbers}, hence the top results are edits on their own page). This allows us to create a dataset similar to  the \wikitalk  dataset, with user id mappings as well as count of number of interactions. The data on top edited pages as seen in Figure~\ref{fig:top-edits} can also be used to create a profile of a user's diversity or speciality of topics and much more.
+
