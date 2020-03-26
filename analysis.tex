@@ -1,0 +1,19 @@
+\section{Analysis}
+In this section we analyze the datasets and present some general statistics and trends from the datasets described in the previous section.
+
+\subsection{RfA statistics}
+In Figure~\ref{fig:Election-stats} we can statistics of elections in Wikipedia that show some interesting trends. First, in Figure~\ref{fig:vot-distribution} we see that the average number of votes in elections is increasing with time. This is as expected as initial RfA were just confirmation processes for candidates who were qualified. As the years went by the process starts to get more involves. This is seen in Figure~\ref{fig:num-rfas}, where there is a peak in the number of successful and unsuccessful elections around 2008 and since then there are fewer election and in total fewer successful ones. A pattern that is good to note is that in the distribution of votes we see that there is a clear majority of support votes in Figure~\ref{fig:vote-type-distribution}, the interesting fact is that when we see the average number of words in comments in Figure~\ref{fig:comment-distribution} we see that support votes have much fewer words compared to oppose or neutral votes. This indicated that people who are casting support votes might have small positive comments, while people casting negative or neutral votes tend to write larger comments to convince others of the issues that they find in the candidacy.
+
+\subsection{Influential Voters}
+To find if there is a set of voters in elections who are influential we utilized two approaches. The first is performing feature selection using a gradient boosting model on the whole dataset as done by Desai et al. in \cite{desai2014result}. The second approach is similar to finding a set cover.
+\smallskip
+
+For the first approach we created a dataset where each column corresponds to an election and each columns is one user. Therefore as we have $4548$ elections and nearly $13,000$ users so the data matrix is roughly $X\in \mathbb{R}^{4548\times 13000}$ and the target is the result of the election, therefore $y_i\in \{1,-1\}$ and $y\in \mathbb{R}^{4548}$. As most users don't vote in all elections the data matrix is very sparse. Unlike Desai et al. \cite{desai2014result}, we did not fill the unknown votes with 0, we left them as missing values . This is because the XGBoost model is able to handle missing values. After fitting the model with the data we extracted the top 15 features based the \textit{gain} they bring to the model in Figure~\ref{fig:xgboost-feat-importance}. These top 15 users can be thought of as the most influential voters for prediciting an election.
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\linewidth]{images/xgboost_features.pdf}
+    \caption{XGBoost feature importance}
+    \label{fig:xgboost-feat-importance}
+\end{figure}
+\smallskip
+
