@@ -8,7 +8,7 @@ In Figure~\ref{fig:Election-stats} we can statistics of elections in Wikipedia t
 To find if there is a set of voters in elections who are influential we utilized two approaches. The first is performing feature selection using a gradient boosting model on the whole dataset as done by Desai et al. in \cite{desai2014result}. The second approach is similar to finding a set cover.
 \smallskip
 
-For the first approach we created a dataset where each column corresponds to an election and each columns is one user. Therefore as we have $4548$ elections and nearly $13,000$ users so the data matrix is roughly $X\in \mathbb{R}^{4548\times 13000}$ and the target is the result of the election, therefore $y_i\in \{1,-1\}$ and $y\in \mathbb{R}^{4548}$. As most users don't vote in all elections the data matrix is very sparse. Unlike Desai et al. \cite{desai2014result}, we did not fill the unknown votes with 0, we left them as missing values . This is because the XGBoost model is able to handle missing values. After fitting the model with the data we extracted the top 15 features based the \textit{gain} they bring to the model in Figure~\ref{fig:xgboost-feat-importance}. These top 15 users can be thought of as the most influential voters for prediciting an election.
+For the first approach we created a dataset where each column corresponds to an election and each columns is one user. Therefore as we have $4548$ elections and nearly $13,000$ users so the data matrix is roughly $X\in \mathbb{R}^{4548\times 13000}$ and the target is the result of the election, therefore $y_i\in \{1,-1\}$ and $y\in \mathbb{R}^{4548}$. As most users don't vote in all elections the data matrix is very sparse. Unlike Desai et al. \cite{desai2014result}, we did not fill the unknown votes with 0, we left them as missing values. This is because the XGBoost model is able to handle missing values. After fitting the model with the data we extracted the top 15 features based the \textit{gain} they bring to the model in Figure~\ref{fig:xgboost-feat-importance}. These top 15 users can be thought of as the most influential voters for prediciting an election.
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=\linewidth]{images/xgboost_features.pdf}
@@ -17,3 +17,38 @@ For the first approach we created a dataset where each column corresponds to an 
 \end{figure}
 \smallskip
 
+The second approach was formulating a set cover problem, every element of the ground set is a tuple of $(\text{voter},\text{election})$ and then we create a subset for each unique user. For every user we take each election they participated in and add the people who follow that user. This means that they voted after the user and also voted the same as the user. Therefore the set $S_u$ for every user is defined as 
+\[
+    S_{u} = \{(v,e) \mid \text{where } v \text{ voted the same after } u \text{ in election }e  \} 
+\]
+Then we order the subsets $S_u$ by their size and then try to find how much of the ground set we can cover by taking the top $k$ users' subsets. The ground set has $221,766$ elements, which is fewer than the total number of votes as there are certain elections where votes were duplicated or people voted twice. We see how the set cover increases as we increase the value of $k$ as seen in Figure~\ref{fig:set-cover}
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\linewidth]{images/set_cover.pdf}
+    \caption{Election set cover}
+    \label{fig:set-cover}
+\end{figure}
+We see that with only $200$ top users we can cover nearly $85\%$ of the whole ground set. More interestingly we see that there is a knee around 25 users indicating that there is a small core of influential users. With the top $15$ users we have $60\%$ coverage. 
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{clr}
+        \toprule
+        Ranking&XGBoost&Set Cover\\
+        \midrule
+        1& Mailer diablo & Siva1979\\
+        2&Pharaoh of the Wizards&Mailer diablo\\
+        3&Merovingian&Newyorkbrad\\
+        4&Casliber&Wizardman\\
+        5&Newyorkbrad&Pedro\\
+        6&Bratsche&Dlohcierekim\\
+        7&Bearian&Juliancolton\\
+        8&Michael Snow&Casliber\\
+        9&Tryptofish&Acalamari\\
+        10&GlassCobra&Fastily\\
+        \bottomrule
+    \end{tabular}
+    \caption{Top 10 influential users from XGBoost and the Set Cover models}
+    \label{tab:top-10}
+\end{table}
+In Table~\ref{tab:top-10} we see many common users among the top 10 influential users from both approaches. This conforms the fact that in Wikipedia RfA elections there is a core set of voters that can be important in predicting the result of an election.
