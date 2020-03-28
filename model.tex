@@ -1,0 +1,102 @@
+\section{Viscous Democracy Model}
+\label{sec:model}
+In this section we explain the concept of viscous democracy \cite{ViscousDemocracy} and it's relevance in decision making on online platforms. We then go on to explain how we can use the concept of viscous democracy model to create a model to predict the results of Wikipedia RfA elections
+
+\subsection{Concept}
+The difference between \textbf{direct democracy}, \textbf{representative democracy} and \textbf{liquid democracy}.
+\smallskip
+
+Direct democracy is when all the people are involved directly in deciding on any policy. it is the purest form of democracy and can only function well in relatively small social groups, as when the number of people cross a certain limit it is logistically infeasible to include everyone's opinion. Representative democracy (or indirect democracy) when people choose a representative who will carry out policy decisions in their favour. This system is widely used by most major countries as well social groups. The main drawback of this system of democracy is that the representatives are not obligated to fulfill promises to the society and once in power can further their self interest. The representatives also stay in power for a period of time within which the public's stance or view on policies might change.
+\smallskip
+
+Liquid democracy is in-between direct and representative democracy. It can be called \textbf{delegative democracy} as people have the chance to delegate their vote to a \textit{proxy} or choose to vote directly. This way the proxy's vote is augmented with all the delegations one receives and can also be transitive in that the proxy can again delegate to another individual. This style of proxy voting works due to \textbf{strong transitive delegation}. This means that I am more likely to trust my friend's friend to have similar interest as my own. There is a lot of theoretical and practical research ongoing in this field \cite{kahng2018liquid,hardt2015google}. The liquid democracy model is not directly suitable for online settings. This is because the social ties online are weak and therefore the transitivity of delegation is weak. It just means that you are less likely to trust your Facebook friend's other Facebook friend. 
+\smallskip
+
+There is a \textit{reluctance} to delegate in online communities. Hence the weight of the vote attenuates as it is delegated further down a chain. This can be visualized as the vote being delegated to be viscous and therefore the weight of your vote when delegated again is smaller than it was before. This is the main concept behind \textit{viscous democracy}. Every voting model requires a \emph{ballot} and a \emph{tally} which we will now describe.
+
+\subsection{Ballot}
+A ballot is how a voter expresses their preferences. In the examples of direct and indirect democracy the ballot is usually cast in the form of a vote, either directly for a policy or indirectly for a candidate. The form of voting can be a \textbf{one person, one vote} system where the voter indicates one option. The other is \textbf{ranking based voting} such as Instant-runoff voting (IRV)\footnote{\url{https://en.wikipedia.org/wiki/Instant-runoff_voting}} or Single Transferable Vote (STV)\footnote{\url{https://en.wikipedia.org/wiki/Single_transferable_vote}} where the voter ranks the options in the order of preference. There can also be ballot systems where you rate the options with a score.
+\smallskip
+In the case of delegative voting systems such as liquid or viscous democracy the choices are to either vote directly or choose to delegate to another person. If we restrict ourselves to only a single vote model then we can consider the ballot as making a \textit{delegation graph}. This concept is illustrated in Figure~\ref{fig:viscous-dem}. We assume that we have an underlying undirected social graph. Every node is a person and each edge indicates a connection. This can be like the friends network in Facebook or contacts networks in LinkedIn etc. Then the delegation graph is built upon the same nodes of the social graph where each node can either vote directly, leading to self loops or choose to delegate to one of their neighbors. Therefore if we assume there is some \textit{delegation rule} that each node follows then the delegation graph is induced from the social graph by applying that rule. 
+
+\subsection{Tally}
+
+
+
+
+
+
+
+\begin{figure*}[!ht]
+    \centering
+    \begin{tikzpicture}[remember picture,every
+    node/.style={draw,circle,fill=blue,minimum width=4pt}]
+        \node (C1) {};
+        \node[below=0.7cm of C1]  (C2){};
+        \node[right=0.8cm of C1] (C3){};
+        \node[right=0.8cm of C2] (C4){};
+        \node[below=0.7cm of C4]  (C5){};
+        \node[right=0.8cm of C4]  (C6){};
+        \draw (C4) -- (C5) -- (C6) -- (C2);
+        \draw (C3) -- (C1) -- (C2) -- (C4) -- (C1);
+        \draw (C3) -- (C6); 
+        \node[draw=none,fill=none,rectangle,above=0.5cm of C1,xshift=-0.5cm,anchor=south west]{Social Graph };
+        \coordinate[below=2.5cm of C1] (X);
+        \draw[white](X)--++(1cm,0);
+        \path (current bounding box.north east) -- 
+        (current bounding box.south east) coordinate[midway] (2BL);
+    \end{tikzpicture}
+    \hspace*{2.5cm}%
+    \begin{tikzpicture}[remember picture,every
+    node/.style={draw,circle,fill=red,minimum width=4pt}]
+        \node (C1) {};
+        \node[below=0.7cm of C1]  (C2){};
+        \node[right=0.8cm of C1] (C3){};
+        \node[right=0.8cm of C2] (C4){};
+        \node[below=0.7cm of C4]  (C5){};
+        \node[right=0.8cm of C4]  (C6){};
+        \draw[-latex] (C6) -- (C3);
+        \draw[-latex] (C1) -- (C2);
+        \draw[-latex] (C5) -- (C6);
+        \draw[-latex] (C2) -- (C4);
+        \path (C4) edge [loop above] (C4); 
+        \node[draw=none,fill=none,rectangle,above=0.5cm of C1,xshift=-0.5cm,anchor=south
+        west]{Delegation Graph};
+        \coordinate[below=2.5cm of C1] (X);
+        \draw[white](X)--++(1cm,0);
+        \path (current bounding box.north west) -- 
+        (current bounding box.south west) coordinate[midway] (2BR);
+        \path (current bounding box.south west) -- 
+        (current bounding box.south east) coordinate[midway] (2BB);
+        \path (current bounding box.south east) -- 
+        (current bounding box.north east) coordinate[midway] (2FM);
+    \end{tikzpicture}
+    \hspace*{3cm}%
+    \begin{tikzpicture}[remember picture,every
+        node/.style={draw,circle,fill=green,minimum size=1pt}]
+        \node[scale=1] (C1) {};
+        \node[below=0.7cm of C1,scale=1.75]  (C2){};
+        \node[right=0.8cm of C1,scale=2.19] (C3){};
+        \node[right=0.8cm of C2,scale=3.5] (C4){};
+        \node[below right=0.8cm of C4,scale=1]  (C5){};
+        \node[right=0.8cm of C4,scale=1.5]  (C6){};
+        \draw[-latex] (C6) -- (C3);
+        \draw[-latex] (C1) -- (C2);
+        \draw[-latex] (C5) -- (C6);
+        \draw[-latex] (C2) -- (C4);
+        \path (C4) edge [loop below] (C4); 
+        \node[draw=none,fill=none,rectangle,above=0.5cm of C1,xshift=-0.5cm,anchor=south
+        west]{Node Importance Graph};
+        \coordinate[below=2.5cm of C1] (X);
+        \draw[white](X)--++(1cm,0);
+        \path (current bounding box.north west) -- 
+        (current bounding box.south west) coordinate[midway] (3BU);
+        \end{tikzpicture}
+        \tikz[overlay,remember picture]{\draw[-latex,thick] (2BL) -- (2BL-|2BR)
+        node[midway,above,text width=2.5cm]{Delegation Rule};} 
+        \tikz[overlay,remember picture]{\draw[-latex,thick] (2FM) -- (3BU)
+        node[midway,above,sloped,text width=2.5cm]{Katz Centrality $\alpha=0.5$};} 
+        
+        \caption{Viscous Democracy Model}
+        \label{fig:viscous-dem}
+    \end{figure*}
