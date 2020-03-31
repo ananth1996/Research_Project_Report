@@ -23,8 +23,26 @@ As we described in Section~\ref{sec:user-contrib} the \usercontrib dataset has c
 \smallskip
 
 We see that the size of the social graph is smaller than the total number of unique users. This is due to many user changing names or accounts being inactive. The graph is also fairly well connected with a large connected components and all others singleton components indicating temporary or one time users. The graph is inherently directed in nature and the successors and predecessors of a node can provide information of who the has contacted or who have contacted the node respectively. if we convert the graph into an undirected network the neighbors of a node $U$ is the union of the successors and predecessors. We will use this social graph as the basis of neighbors or contacts for voters in the viscous democracy model.
-`'
-\subsection{Delegation Rule}
 
+\subsection{Delegation Rule}
+The most important part of the model is the delegation rule. In their work, Boldi et al. mention that delegation usually happens within the community and that once delegation occurs you can use the viscous democracy to evaluate the scores of each node in the graph. The difficulty is that when using this model to simulate an election we require a heuristic by which people delegate within their neighborhood. Boldi et al. in their simulation of voting in a co-authorship network used the criteria that a voter would delegate to the person in their neighborhood who has published more papers, if none exists then they would vote for themselves, choosing not to delegate themselves \cite{ViscousDemocracy}.
+\smallskip
+
+Therefore in our simulation of Wikipedia RfA election we can use attributes of each voter to decide how the delegation would be carried out. We recorded the following information for each node\footnote{the terms node, voter and users will be used interchangeably} in the social graph
+\begin{enumerate}
+    \item Start date of account
+    \item Total number of edits
+    \item Ranking
+\end{enumerate}
+Each of these will result in a different delegation rule which are \textbf{seniority}, \textbf{edit count} and \textbf{rank}. Given a node $u$ we will define the neighborhood of the node as $\mathcal{N}_u$. As mentioned previously the nodes in the neighborhood depends on whether the graph is directed or undirected. The augmented neighborhood is defined as appending the node $u$ to the neighborhood, ${\mathcal{N}_u}^\prime = \mathcal{N}_u \cup u$. We will explain each rule and how it will be applied to the social graph.
+
+\subsubsection{Seniority Rule}
+This rule will be based on the start date of each node. The delegation will be done to the node that has the most seniority or has the lowest starting date. If the function $\text{StartDate}(v)$ would return the start date of node $v$ then the function can be written as follows where $\text{delegate}_S$ is the delegation rule based on seniority.
+\[\text{delegate}_S(u)  = \argmin_{v \in \mathcal{N}_u^\prime} \text{StartDate}(v)\]
+This delegation rule is based on the heuristic that people who have been in Wikipedia longer are better placed to make a decision on the administrative qualities of a candidate. 
+
+\subsubsection{Edit Count Rule}
+
+\subsubsection{Rank Rule}
 \subsection{Global Tally}
 \subsection{Local Tally}
