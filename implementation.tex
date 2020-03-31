@@ -1,4 +1,30 @@
 \section{Implementation}
 \label{sec:implementation}
-directed graph concepts and delegation function considerations.
-Agony and hierarchy. local and global top k delegates.
+In this section we discuss the implementation of various parts the viscous democracy voting model. First we explain the construction and details of the social graph of Wikipedia editors. Next we describe the different approaches for the delegation rule. Lastly we see the details of the local and global tally methods.
+
+\subsection{Social Graph}
+As we described in Section~\ref{sec:user-contrib} the \usercontrib dataset has comprehensive edit history for each user. We use the \textit{User Talk Page} edits to create an edge in the social graph. The nodes are limited to the users from the  RfA dataset so that the size of the graph is not unnecessarily large. An edge exists between user $U$ and user $V$ if $U$ has edited $V$'s talk page. This provides us an underlying directed social interaction graph. The network properties are show in Figure~\ref{tab:social-graph}.
+
+\begin{table}
+    \centering
+    \begin{tabular}{lr}
+        \toprule
+        \textbf{Property}& \textbf{Value} \\
+        \midrule
+        Number of Node & $12,529$ \\
+        Number of Edges & $1,149,415$ \\
+        Density & $0.00732$\\
+        Largest connected component size &$10,565$\\
+        \bottomrule
+    \end{tabular}
+    \caption{Social Graph properties}
+    \label{tab:social-graph}
+\end{table}
+\smallskip
+
+We see that the size of the social graph is smaller than the total number of unique users. This is due to many user changing names or accounts being inactive. The graph is also fairly well connected with a large connected components and all others singleton components indicating temporary or one time users. The graph is inherently directed in nature and the successors and predecessors of a node can provide information of who the has contacted or who have contacted the node respectively. if we convert the graph into an undirected network the neighbors of a node $U$ is the union of the successors and predecessors. We will use this social graph as the basis of neighbors or contacts for voters in the viscous democracy model.
+`'
+\subsection{Delegation Rule}
+
+\subsection{Global Tally}
+\subsection{Local Tally}

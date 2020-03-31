@@ -1,18 +1,18 @@
-\begin{itemize}
-    \item explain RfA data collection 
-    \begin{itemize}
-        \item existing SNAP data and limitations
-        \item XML parsing 
-        \item regex and string matching 
-        \item date parsing
-    \end{itemize}
-    \item Social interactions 
-    \begin{itemize}
-        \item User contributions
-        \item wealth and diversity of info 
-        \item creating underlying network
-    \end{itemize}   
-\end{itemize}
+% \begin{itemize}
+%     \item explain RfA data collection 
+%     \begin{itemize}
+%         \item existing SNAP data and limitations
+%         \item XML parsing 
+%         \item regex and string matching 
+%         \item date parsing
+%     \end{itemize}
+%     \item Social interactions 
+%     \begin{itemize}
+%         \item User contributions
+%         \item wealth and diversity of info 
+%         \item creating underlying network
+%     \end{itemize}   
+% \end{itemize}
 
 \section{Dataset}
 \label{sec:dataset}
@@ -22,9 +22,9 @@ We would like to have two different types of data to help build the election mod
 
 In this section we will discuss the existing Wikipeida datasets from Stanford large network datasets (SNAP) \cite{snapnets} that satisfy our requirements and their inherent limitations. Next we will illustrate the process by which we collected newer data from Wikipedia.
 
-\newcommand{\wikirfa}{\textit{wiki-Rfa} }
-\newcommand{\wikielect}{\textit{wiki-Elect} }
-\newcommand{\wikitalk}{\textit{wiki-Talk} }
+\newcommand{\wikirfa}{{\sc wiki-Rfa}\xspace}
+\newcommand{\wikielect}{{\sc wiki-Elect}\xspace}
+\newcommand{\wikitalk}{{\sc wiki-Talk}\xspace}
 
 \subsection{Existing Datasets}
 For the first type of data we requore thre are two existing Wikipedia RfA datasets in SNAP namely \wikielect a
@@ -71,6 +71,11 @@ We collected $226,781$ votes from $4,557$ elections with over $13,000$ unique us
     \label{fig:rfa-extraction}
 \end{figure*}
 
+\newcommand{\usercontrib}{{\sc user-contrib}\xspace}
+
 \subsection{User Interaction Data Collection}
-Wikipedia has an API to request all the contributions made by a particular user \cite{wiki:Usercontribs}. This offers a rich source of data on the activities of a user on Wikipedia as seen in Figure~\ref{fig:edit-summary} from the online \textit{editsummary tool}\footnote{\url{https://xtools.wmflabs.org/editsummary}} for Wikipedia users. We proceeded to collect the contributions for every unique user in the RfA data querying the API. There are some issues with the user ids that are present in the RfA data. As a single user can have multiple aliases and/or change their user id at any point, some users might not have any contributions under an alias that has been discontinued. To simplify our data colection, we assume that each user id is a unique user and will fetch contributions under that user id if present. This resulted in 100GB of data for nearly $11,000$ out of $13,000$ user ids. We can see that edits have a \textit{namespace} as seen in \ref{fig:namespace-totals}. These are categories for each Wiki page like \texttt{Main} is for all the articles on Wikipedia and \texttt{User Talk} is available for each user. Each category also has a the corresponding \textit{Talk Page} for discussions. Therefore, we can get user interactions by looking at the \texttt{User Talk} namespace. As an example in \ref{fig:user-talk-edits}, the top edited user talk page is of \texttt{Dianna} (The actual user is \texttt{Justlettersandnumbers}, hence the top results are edits on their own page). This allows us to create a dataset similar to  the \wikitalk  dataset, with user id mappings as well as count of number of interactions. The data on top edited pages as seen in Figure~\ref{fig:top-edits} can also be used to create a profile of a user's diversity or speciality of topics and much more.
+\label{sec:user-contrib}
+Wikipedia has an API to request all the contributions made by a particular user \cite{wiki:Usercontribs}. This offers a rich source of data on the activities of a user on Wikipedia as seen in Figure~\ref{fig:edit-summary} from the online \textit{editsummary tool}\footnote{\url{https://xtools.wmflabs.org/editsummary}} for Wikipedia users. We proceeded to collect the contributions for every unique user in the RfA data querying the API. There are some issues with the user ids that are present in the RfA data. As a single user can have multiple aliases and/or change their user id at any point, some users might not have any contributions under an alias that has been discontinued. To simplify our data colection, we assume that each user id is a unique user and will fetch contributions under that user id if present. This resulted in 100GB of data for nearly $11,000$ out of $13,000$ user ids. We will refer to this dataset \usercontrib from this point.
+\smallskip
+We can see that edits in \usercontrib have a \textit{namespace} as seen in \ref{fig:namespace-totals}. These are categories for each Wiki page like \texttt{Main} is for all the articles on Wikipedia and \texttt{User Talk} is available for each user. Each category also has a the corresponding \textit{Talk Page} for discussions. Therefore, we can get user interactions by looking at the \texttt{User Talk} namespace. As an example in \ref{fig:user-talk-edits}, the top edited user talk page is of \texttt{Dianna} (The actual user is \texttt{Justlettersandnumbers}, hence the top results are edits on their own page). This allows us to create a dataset similar to  the \wikitalk  dataset, with user id mappings as well as count of number of interactions. The data on top edited pages as seen in Figure~\ref{fig:top-edits} can also be used to create a profile of a user's diversity or speciality of topics and much more.
 
