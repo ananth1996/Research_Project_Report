@@ -37,12 +37,15 @@ Therefore in our simulation of Wikipedia RfA election we can use attributes of e
 Each of these will result in a different delegation rule which are \textbf{seniority}, \textbf{edit count} and \textbf{rank}. Given a node $u$ we will define the neighborhood of the node as $\mathcal{N}_u$. As mentioned previously the nodes in the neighborhood depends on whether the graph is directed or undirected. The augmented neighborhood is defined as appending the node $u$ to the neighborhood, ${\mathcal{N}_u}^\prime = \mathcal{N}_u \cup u$. We will explain each rule and how it will be applied to the social graph.
 
 \subsubsection{Seniority Rule}
-This rule will be based on the start date of each node. The delegation will be done to the node that has the most seniority or has the lowest starting date. If the function $\text{StartDate}(v)$ would return the start date of node $v$ then the function can be written as follows where $\text{delegate}_S$ is the delegation rule based on seniority.
-\[\text{delegate}_S(u)  = \argmin_{v \in \mathcal{N}_u^\prime} \text{StartDate}(v)\]
+This rule will be based on the start date of each node. The delegation will be done to the node that has the most seniority or has the lowest starting date. If the function $\startdate(v)$ would return the start date of node $v$ then the function can be written as follows where $\seniority(\cdot)$ is the delegation rule based on seniority.
+\[\seniority(u)  = \argmin_{v \in \mathcal{N}_u^\prime} \left( \startdate(v) \right)\]
 This delegation rule is based on the heuristic that people who have been in Wikipedia longer are better placed to make a decision on the administrative qualities of a candidate. 
 
 \subsubsection{Edit Count Rule}
+The heuristic is based on the fact that the users on Wikipedia who have more edits are usually more active in the community and are also the ones whose votes will be most influential in swaying other voters to support a candidate. Hence given a node $u$ we take the augmented neighborhood $\mathcal{N}_u^{\prime}$ and then choose the node which has the highest number of total edits. In this way, if there is no neighbor who has more edits than the node $u$ then, the user votes for herself. If we define the function $\editcount(v)$ to return the total number of edits for user $v$ and $\edit$ as the delegation function based on edit count, we have 
+\[\edit(u)  = \argmax_{v \in \mathcal{N}_u^\prime} \left(\editcount(v) \right)\]
 
 \subsubsection{Rank Rule}
+
 \subsection{Global Tally}
 \subsection{Local Tally}
