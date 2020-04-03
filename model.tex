@@ -21,6 +21,7 @@ A ballot is how a voter expresses their preferences. In the examples of direct a
 In the case of delegative voting systems such as liquid or viscous democracy the choices are to either vote directly or choose to delegate to another person. If we restrict ourselves to only a single vote model then we can consider the ballot as making a \textit{delegation graph} \cite{ViscousDemocracy}. This concept is illustrated in Figure~\ref{fig:viscous-dem}. We assume that we have an underlying undirected social graph. Every node is a person and each edge indicates a connection. This can be like the friends network in Facebook or contacts networks in LinkedIn etc. Then the delegation graph is built upon the same nodes of the social graph where each node can either vote directly, leading to self loops or choose to delegate to one of their neighbors. Therefore if we assume there is some \textit{delegation rule} that each node follows then the delegation graph is induced from the social graph by applying that rule. 
 
 \subsection{Tally}
+\label{sec:tally}
 The tally is the algorithm that decides the final outcome. In direct or indirect democracies the method of tally might be \textbf{first-past-the-post} an example of plurality based tallying or a proportional system where seats or power is awarded to the proportion of the votes received. 
 \smallskip
  
