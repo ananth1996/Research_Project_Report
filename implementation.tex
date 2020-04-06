@@ -86,10 +86,10 @@ The local context of tallying is when we take an RfA election and then of all th
 The viscous democracy model has many parameters and hyperparameters that can be varied. These occur in different stages of the model and affect the final predictive accuracy of the model. In this subsection we will describe all these hyperparameters and their possible values.
 
 \begin{itemize}
-    \item \textbf{Social Graph Type}: Directed or Undirected
+    \item $\boldsymbol{\alpha}$ : the delegation factor, $\alpha\in ]0,1[$
+    \item $\mathbf{k}$ : number of users to consider using node scores, $k \in \mathbb{N}$
     \item \textbf{Delegation Rule}: Seniority, Edit Count, Rank or Reversed Rank 
     \item \textbf{Tally Scheme}: Local or Global
-    \item k : number of users to consider using node scores, $k \in \mathbb{N}$
-    \item $\alpha$ : the delegation factor, $\alpha\in ]0,1[$
+    % \item \textbf{Social Graph Type}: Directed or Undirected
 \end{itemize}
 We see that there are many possible combinations of parameters and hyperparameters to arrive at a model. In the following section we will present the results of the model. 
