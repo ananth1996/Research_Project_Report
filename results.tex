@@ -47,12 +47,14 @@ In Figure~\ref{fig:local-k} we see that the \globalv model has a knee around $k=
 We see a similar knee for the \localv model in Figure~\ref{fig:local-k}, this time just before $k=20$. In this knee region there are some differences compared to the \globalv plots. We see the effect of $\alpha$ is not as pronounced in this region. We also see that there are distinctive spikes that lead to a bump before plateauing back to the baseline as $k$ increases. These spikes confirm the behaviour that we discussed previously in Figure~\ref{fig:local-alpha}, around this region the \localv model has slightly better performance than the baseline. This is again clearly evident in the $\alpha=0.4$ line for the seniority delegation rule in Figure~\ref{fig:local-k}.
 
 \subsection{Grid Search}
-Gathering all the information from the previous sections on the effects of the parameter $\alpha$ and $k$ we can narrow down the search space to find the best combination of parameters. As both the \localv and \globalv models show a tendency to perform better with \textbf{more viscous votes}, we can restrict the space to $\alpha \in [0.2,0.4]$. The analysis of the \globalv model shows that we need nearly $k=2500$ to get performance close to the baseline. Correspondingly for the \localv model we see for around $k=20$ we start to get much better accuracy compared to the baseline. Using these as starting points for the grid and random search of the parameter space we obtain the following best combination of model parameters as show in Table~\ref{tab:grid-search}.
+Gathering all the information from the previous sections on the effects of the parameter $\alpha$ and $k$ we can narrow down the search space to find the best combination of parameters. As both the \localv and \globalv models show a tendency to perform better with more viscous votes, we can restrict the space to $\alpha \in [0.2,0.4]$. The analysis of the \globalv model shows that we need nearly $k=2500$ to get performance close to the baseline. Correspondingly for the \localv model we see for around $k=20$ we start to get much better accuracy compared to the baseline. Using these as starting points for the grid and random search of the parameter space we obtain the following best combination of model parameters as show in Table~\ref{tab:grid-search}.
 \begin{table}
     \centering
-    \begin{tabular}{@{\extracolsep{\fill}}llccc}
+    \caption{Results of the grid search of the parameters and the model accuracy}
+    \label{tab:grid-search}
+    \begin{tabular}{llccc}
         \toprule
-        Delegation Rule & Tally Method & k & $\alpha$ & Accuracy \\ \midrule
+        Delegation Rule & Tally & k & $\alpha$ & Accuracy \\ \midrule
         \multirow{2}{*}{Seniority} & Global & $\approx 2400$ & $\approx 0.4$ &   \\ 
         \cmidrule{2-5}
         & Local & 15 & 0.303& 0.832  \\
@@ -67,11 +69,9 @@ Gathering all the information from the previous sections on the effects of the p
         \midrule
         \multirow{2}{*}{Reveresed Rank} & Global & $\approx 1900$ & $\approx 0.35$  \\
         \cmidrule{2-5}
-        & Local & 17 & 0.33 &  \\
+        & Local & 16 & 0.298 & 0.826  \\
         \bottomrule
         \end{tabular}
-        \caption{Results of the grid search of the parameters and the model accuracy}
-        \label{tab:grid-search}
 \end{table}
 
 We see that all the \localv models have performance greater than the baseline of $82\%$ with the value of $k$ close to $15$ most influential users. The value of $\alpha$ indicates that the votes in the network are sufficiently viscous in nature`. 
