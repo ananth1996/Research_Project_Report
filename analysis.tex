@@ -7,7 +7,6 @@ In Figure~\ref{fig:Election-stats} we can statistics of elections in Wikipedia t
 \subsection{Influential Voters}
 \label{sec:influential-voters}
 To find if there is a set of voters in elections who are influential we utilized two approaches. The first is performing feature selection using a gradient boosting model on the whole dataset as done by Desai et al. in \cite{desai2014result}. The second approach is similar to finding a set cover.
-\smallskip
 
 For the first approach we created a dataset where each column corresponds to an election and each columns is one user. Therefore as we have $4548$ elections and nearly $13,000$ users so the data matrix is roughly $X\in \mathbb{R}^{4548\times 13000}$ and the target is the result of the election, therefore $y_i\in \{1,-1\}$ and $y\in \mathbb{R}^{4548}$. As most users don't vote in all elections the data matrix is very sparse. Unlike Desai et al. \cite{desai2014result}, we did not fill the unknown votes with 0, we left them as missing values. This is because the XGBoost model is able to handle missing values. After fitting the model with the data we extracted the top 15 features based the \textit{gain} they bring to the model in Figure~\ref{fig:xgboost-feat-importance}. These top 15 users can be thought of as the most influential voters for prediciting an election.
 \begin{figure}[!ht]
@@ -16,7 +15,6 @@ For the first approach we created a dataset where each column corresponds to an 
     \caption{XGBoost feature importance}
     \label{fig:xgboost-feat-importance}
 \end{figure}
-\smallskip
 
 The second approach was formulating a set cover problem, every element of the ground set is a tuple of $(\text{voter},\text{election})$ and then we create a subset for each unique user. For every user we take each election they participated in and add the people who follow that user. This means that they voted after the user and also voted the same as the user. Therefore the set $S_u$ for every user is defined as 
 \[
