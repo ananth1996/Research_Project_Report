@@ -3,7 +3,7 @@
 In this section we explain the concept of viscous democracy \cite{ViscousDemocracy} and it's relevance in decision making on online platforms. We then go on to explain how we can use the concept of viscous democracy model to create a model to predict the results of Wikipedia RfA elections
 
 \subsection{Concept}
-The difference between \textbf{direct democracy}, \textbf{representative democracy} and \textbf{liquid democracy}.
+There are three main forms of democracy namely \textbf{direct democracy}, \textbf{representative democracy}, and \textbf{liquid democracy}.
 
 Direct democracy is when all the people are involved directly in deciding on any policy. it is the purest form of democracy and can only function well in relatively small social groups, as when the number of people cross a certain limit it is logistically infeasible to include everyone's opinion. Representative democracy (or indirect democracy) when people choose a representative who will carry out policy decisions in their favour. This system is widely used by most major countries as well social groups. The main drawback of this system of democracy is that the representatives are not obligated to fulfil promises to the society and once in power can further their self interest. The representatives also stay in power for a period of time within which the public's stance or view on policies might change.
 
@@ -24,7 +24,7 @@ The tally proposed by Boldi et al.\ is a scored based tally where each node in t
 \[\text{Score}_{i}  = \sum_{p \in \text{Path}(-,i)} \alpha^{|p|}\]
 Here, $\text{Path}(-,i)$ is set of all delegation paths ending in node $i$ and $|p|$ is the length of the path \cite{ViscousDemocracy}. This step is shown in Figure~\ref{fig:viscous-dem}, where the \textit{Node Importance Graph} is the delegation graph where each node's size is proportional to the score that is obtained from Katz's Centrality with $\alpha=0.5$. Here we see that the nodes where the delegation chain ends have a larger node score as the votes are transitively transferred.
 
-The parameter $\alpha\in ]0,1[$ acts as the \textit{delegation factor} and $1-\alpha$ is the \textit{viscosity}. As $\alpha\rightarrow 0$ the strength of votes delegated tend to $0$ hence direct votes have more weight. Therefore the more viscous the system is the more analogous it is to direct democracy or majority voting. As $\alpha\rightarrow 1$ almost all the weight of the vote is transferred to the delegate and the node scores correspond to the size of the subtree that they are a part of and the vote and the system is more analogous to liquid democracy \cite{ViscousDemocracy}.
+The parameter $\alpha\in (0,1)$ acts as the \textit{delegation factor} and $1-\alpha$ is the \textit{viscosity}. As $\alpha$ approaches $0$ the strength of votes delegated tend to $0$ hence direct votes have more weight. Therefore the more viscous the system is the more analogous it is to direct democracy or majority voting. As $\alpha$ approaches $1$ almost all the weight of the vote is transferred to the delegate and the node scores correspond to the size of the subtree that they are a part of and the vote and the system is more analogous to liquid democracy \cite{ViscousDemocracy}.
 
 \subsection{Model} 
 Now utilizing all the concepts behind \textit{viscous democracy} we propose a model to predict the Wikipedia RfA elections. This election model also consists of the two parts, namely ballot and tally. 
