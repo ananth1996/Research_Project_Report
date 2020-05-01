@@ -1,6 +1,6 @@
 \section{Viscous Democracy Model}
 \label{sec:model}
-In this section we explain the concept of viscous democracy \cite{ViscousDemocracy} and it's relevance in decision making on online platforms. We then go on to explain how we can use the concept of viscous democracy model to create a model to predict the results of Wikipedia RfA elections
+In this section we explain the concept of viscous democracy \cite{ViscousDemocracy} and its relevance in decision making on online platforms. We then go on to explain how we can use the concept of viscous democracy model to create a model to predict the results of Wikipedia RfA elections
 
 \subsection{Concept}
 There are three main forms of democracy namely \textbf{direct democracy}, \textbf{representative democracy}, and \textbf{liquid democracy}.
@@ -20,8 +20,8 @@ In the case of delegative voting systems such as liquid or viscous democracy the
 \label{sec:tally}
 The tally is the algorithm that decides the final outcome. In direct or indirect democracies the method of tally might be \textbf{first-past-the-post} an example of plurality based tallying or a proportional system where seats or power is awarded to the proportion of the votes received. 
  
-The tally proposed by Boldi et al.\ is a scored based tally where each node in the network receives a score that is calculated based on the delegation graph \cite{ViscousDemocracy}. This score can then be used along with any requirement such as choosing a committee or one policy out of many alternatives. The method is called \textit{transitive proxy voting with exponential damping}, where a dampening factor $\alpha$ controls the amount of reluctance in the transitive delegation of votes. They proposed using \textbf{Katz's Centrality index} on the delegation graph. Therefore the score for a node $i$ is defined as 
-\[\text{Score}_{i}  = \sum_{p \in \text{Path}(-,i)} \alpha^{|p|}\]
+The tally proposed by Boldi et al.\ is a score-based tally where each node in the network receives a score that is calculated based on the delegation graph \cite{ViscousDemocracy}. This score can then be used along with any requirement such as choosing a committee or one policy out of many alternatives. The method is called \textit{transitive proxy voting with exponential damping}, where a dampening factor $\alpha$ controls the amount of reluctance in the transitive delegation of votes. They proposed using \textbf{Katz's Centrality index} on the delegation graph. Therefore the score for a node $i$ is defined as 
+\[\text{Score}_{i}  = \sum_{p \in \text{Path}(-,i)} \alpha^{|p|}.\]
 Here, $\text{Path}(-,i)$ is set of all delegation paths ending in node $i$ and $|p|$ is the length of the path \cite{ViscousDemocracy}. This step is shown in Figure~\ref{fig:viscous-dem}, where the \textit{Node Importance Graph} is the delegation graph where each node's size is proportional to the score that is obtained from Katz's Centrality with $\alpha=0.5$. Here we see that the nodes where the delegation chain ends have a larger node score as the votes are transitively transferred.
 
 The parameter $\alpha\in (0,1)$ acts as the \textit{delegation factor} and $1-\alpha$ is the \textit{viscosity}. As $\alpha$ approaches $0$ the strength of votes delegated tend to $0$ hence direct votes have more weight. Therefore the more viscous the system is the more analogous it is to direct democracy or majority voting. As $\alpha$ approaches $1$ almost all the weight of the vote is transferred to the delegate and the node scores correspond to the size of the subtree that they are a part of and the vote and the system is more analogous to liquid democracy \cite{ViscousDemocracy}.
